@@ -1,47 +1,741 @@
 <!DOCTYPE html>
 <html lang="id">
-    <head>
-        <meta charset="UTF-8">
-        <title>Home - Daniel Azarya</title>
-        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="styles.css">
-        <script src="scripts.js" defer></script>
-    </head>
-<body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniel Azarya - Gundam Universe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #003087;
+            --secondary-blue: #0055b7;
+            --accent-orange: #ff4500;
+            --gundam-yellow: #ffeb3b;
+            --text-light: #e0e0e0;
+            --text-dark: #333;
+            --bg-dark: #0a0a0a;
+            --bg-light: #f5f5f5;
+            --card-dark: #1a1a1a;
+            --card-light: #ffffff;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            transition: all 0.4s ease;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        body.light-mode {
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 48, 135, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 69, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 235, 59, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 50%, var(--primary-blue) 100%);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-orange);
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 20%, rgba(255, 255, 255, 0.1) 50%, transparent 80%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(45deg, #e0e0e0, #ffffff, #ffeb3b, #ffffff, #e0e0e0);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+            animation: textGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+            0%, 100% { 
+                background-position: 0% 50%;
+                filter: drop-shadow(0 0 20px rgba(255, 235, 59, 0.3));
+            }
+            50% { 
+                background-position: 100% 50%;
+                filter: drop-shadow(0 0 30px rgba(255, 235, 59, 0.6));
+            }
+        }
+
+        .gundam-eyes {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            z-index: 2;
+            position: relative;
+        }
+
+        .eye {
+            width: 28px;
+            height: 28px;
+            background: radial-gradient(circle at 30% 30%, #ffffff 0%, #ffeb3b 20%, #ffc107 100%);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 25px var(--gundam-yellow),
+                0 0 50px var(--gundam-yellow),
+                inset 0 3px 0 rgba(255, 255, 255, 0.4);
+            animation: gundamBlink 4s ease-in-out infinite;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .eye::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 25%;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 100%);
+            border-radius: 50%;
+        }
+
+        @keyframes gundamBlink {
+            0%, 85%, 100% {
+                opacity: 1;
+                transform: scale(1);
+                box-shadow: 0 0 25px var(--gundam-yellow), 0 0 50px var(--gundam-yellow);
+            }
+            90%, 95% {
+                opacity: 0.2;
+                transform: scale(0.9);
+                box-shadow: 0 0 5px var(--gundam-yellow), 0 0 10px var(--gundam-yellow);
+            }
+        }
+
+        .eye:hover {
+            animation-duration: 1s;
+            transform: scale(1.2);
+        }
+
+        nav {
+            margin-top: 25px;
+            z-index: 2;
+            position: relative;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 12px 20px;
+            border-radius: 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--accent-orange), #ff6b35);
+            border-radius: 30px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+
+        nav a:hover::before,
+        nav a.active::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 69, 0, 0.4);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--accent-orange);
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent-orange), transparent);
+            transform: translateX(-50%);
+            animation: underlineGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes underlineGlow {
+            0%, 100% { box-shadow: 0 0 10px var(--accent-orange); }
+            50% { box-shadow: 0 0 20px var(--accent-orange), 0 0 30px var(--accent-orange); }
+        }
+
+        body.light-mode h2 {
+            color: var(--primary-blue);
+        }
+
+        body.light-mode h2::after {
+            background: linear-gradient(90deg, transparent, var(--primary-blue), transparent);
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 60px 0;
+            position: relative;
+        }
+
+        .profile-container {
+            position: relative;
+            display: inline-block;
+            margin: 40px 0;
+        }
+
+        .profile-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 6px solid var(--accent-orange);
+            box-shadow: 
+                0 0 40px rgba(255, 69, 0, 0.4),
+                0 0 80px rgba(255, 69, 0, 0.2),
+                inset 0 0 0 4px rgba(255, 255, 255, 0.1);
+            object-fit: cover;
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 
+                0 0 60px rgba(255, 69, 0, 0.6),
+                0 0 120px rgba(255, 69, 0, 0.3);
+        }
+
+        body.light-mode .profile-image {
+            border-color: var(--primary-blue);
+            box-shadow: 
+                0 0 40px rgba(0, 48, 135, 0.4),
+                0 0 80px rgba(0, 48, 135, 0.2);
+        }
+
+        body.light-mode .profile-image:hover {
+            box-shadow: 
+                0 0 60px rgba(0, 48, 135, 0.6),
+                0 0 120px rgba(0, 48, 135, 0.3);
+        }
+
+        .profile-ring {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 340px;
+            height: 340px;
+            border: 2px solid var(--gundam-yellow);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: rotate 10s linear infinite;
+        }
+
+        .profile-ring::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: var(--gundam-yellow);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--gundam-yellow);
+            transform: translateX(-50%);
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .intro-text {
+            max-width: 800px;
+            margin: 50px auto;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            text-align: justify;
+            position: relative;
+        }
+
+        .intro-text p {
+            margin-bottom: 25px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .intro-text p:nth-child(1) { animation-delay: 0.2s; }
+        .intro-text p:nth-child(2) { animation-delay: 0.4s; }
+        .intro-text p:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .intro-text strong {
+            color: var(--accent-orange);
+            font-weight: 700;
+        }
+
+        body.light-mode .intro-text strong {
+            color: var(--primary-blue);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: var(--card-dark);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 2px solid var(--accent-orange);
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.light-mode .feature-card {
+            background: var(--card-light);
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 69, 0, 0.3);
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        body.light-mode .feature-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 48, 135, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.4rem;
+            color: var(--secondary-blue);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        body.light-mode .feature-title {
+            color: var(--primary-blue);
+        }
+
+        .feature-description {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        #mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, var(--accent-orange), #ff6b35);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 20px rgba(255, 69, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        #mode-toggle:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(255, 69, 0, 0.4);
+        }
+
+        body.light-mode #mode-toggle {
+            background: linear-gradient(45deg, var(--primary-blue), var(--secondary-blue));
+            box-shadow: 0 8px 20px rgba(0, 48, 135, 0.3);
+        }
+
+        body.light-mode #mode-toggle:hover {
+            box-shadow: 0 12px 25px rgba(0, 48, 135, 0.4);
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: var(--text-light);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 80px;
+            border-top: 3px solid var(--accent-orange);
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode footer {
+            color: white;
+            border-top-color: var(--primary-blue);
+        }
+
+        @media (max-width: 768px) {
+            nav a {
+                margin: 5px 10px;
+                font-size: 1rem;
+                padding: 10px 15px;
+                display: inline-block;
+            }
+
+            .profile-image {
+                width: 250px;
+                height: 250px;
+            }
+
+            .profile-ring {
+                width: 290px;
+                height: 290px;
+            }
+
+            .intro-text {
+                font-size: 1.1rem;
+                text-align: left;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .feature-card {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 20px 15px;
+            }
+
+            main {
+                padding: 0 15px;
+                margin: 30px auto;
+            }
+
+            .gundam-eyes {
+                gap: 20px;
+            }
+
+            .eye {
+                width: 24px;
+                height: 24px;
+            }
+
+            #mode-toggle {
+                top: 15px;
+                right: 15px;
+                padding: 10px 15px;
+                font-size: 0.8rem;
+            }
+
+            .profile-image {
+                width: 200px;
+                height: 200px;
+            }
+
+            .profile-ring {
+                width: 240px;
+                height: 240px;
+            }
+        }
+
+        .loading {
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="loading">
     <header>
-        <h1>Blog Gundam</h1>
+        <h1>Daniel Azarya</h1>
+        <div class="gundam-eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
         <nav>
-            <a href="index.html">Home</a> |
-            <a href="gallery.html">Gallery</a> |
-            <a href="blog.html">Blog</a> |
+            <a href="index.html" class="active">Home</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="blog.html">Blog</a>
             <a href="contact.html">Contact</a>
         </nav>
     </header>
+
     <main>
-        <h2>Artikel Tentang Gundam</h2>
-        
-        <article>
-            <h3>1. Sejarah Gundam RX-78-2</h3>
-            <p>Gundam RX-78-2 merupakan mobile suit pertama yang diperkenalkan dalam seri orisinal Mobile Suit Gundam pada tahun 1979an, yang tidak hanya menjadi ikon dari waralaba Gundam, tetapi juga merevolusi genre mecha dengan desain futuristiknya, teknologi canggih, serta perannya sebagai simbol perjuangan dalam kisah perang antara Federasi Bumi dan Zeon.</p>
-        </article>
-        
-        <article>
-            <h3>2. Evolusi Desain Gundam</h3>
-            <p>Sejak kemunculannya pada tahun 1979 hingga saat ini, desain Gundam terus mengalami evolusi yang signifikan, didorong oleh perkembangan teknologi dan estetika yang semakin canggih, menciptakan berbagai model dengan detail yang lebih kompleks, proporsi yang lebih realistis, serta fitur-fitur inovatif yang semakin memukau para penggemar di seluruh dunia.</p>
-        </article>
-        
-        <article>
-            <h3>3. Gundam Terkuat dalam Sejarah</h3>
-            <p>Perdebatan mengenai Gundam terkuat selalu menjadi topik yang menarik di kalangan para penggemar, namun banyak yang sepakat bahwa Gundam Unicorn menonjol dengan kekuatan luar biasa berkat teknologi canggihnya, termasuk sistem NT-D yang memungkinkannya mengalahkan Mobile Suit lawan dengan efisiensi yang mengagumkan.</p>
-        </article>
-        
-        <article>
-            <h3>4. Pengaruh Gundam pada Budaya Pop</h3>
-            <p>Gundam bukan hanya sekadar anime, tetapi juga merupakan fenomena budaya yang telah memberikan pengaruh besar terhadap berbagai aspek industri hiburan, termasuk mainan, permainan video, serta film-film spektakuler yang terus menarik perhatian para penggemar di seluruh dunia.</p>
-        </article>
+        <div class="hero-section">
+            <h2>Selamat Datang di Gundam Universe</h2>
+            
+            <div class="profile-container">
+                <div class="profile-ring"></div>
+                <img src="https://via.placeholder.com/300x300/003087/ffffff?text=Daniel+Azarya" alt="Daniel Azarya" class="profile-image">
+            </div>
+            
+            <div class="intro-text">
+                <p>Halo, nama saya <strong>Daniel Azarya</strong>. Saya adalah seorang mahasiswa yang memiliki passion mendalam terhadap dunia Gundam dan teknologi mecha masa depan.</p>
+                
+                <p>Website ini adalah tempat saya berbagi tentang koleksi, pengetahuan, dan pengalaman saya dalam menjelajahi universe Gundam yang menakjubkan. Dari model kit hingga anime series, dari teknologi hingga filosofi di balik setiap mobile suit.</p>
+                
+                <p>Bergabunglah dengan saya dalam perjalanan epik mengeksplorasi dunia yang penuh dengan inovasi, persahabatan, dan perjuangan untuk masa depan yang lebih baik!</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">Model Collection</h3>
+                    <p class="feature-description">Koleksi model kit Gundam dari berbagai series dengan detail yang menakjubkan dan kualitas premium.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3 class="feature-title">Knowledge Base</h3>
+                    <p class="feature-description">Artikel mendalam tentang sejarah, teknologi, dan evolusi Gundam dalam pop culture dunia.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌟</div>
+                    <h3 class="feature-title">Community</h3>
+                    <p class="feature-description">Membangun komunitas penggemar Gundam untuk berbagi passion dan pengalaman bersama.</p>
+                </div>
+            </div>
+        </div>
     </main>
+
     <footer>
-        <p>&copy; 2025 Daniel Azarya</p>
+        <p>&copy; 2025 Daniel Azarya - Gundam Universe Explorer | Made with ❤️ for Gundam Fans Worldwide</p>
     </footer>
+
+    <button id="mode-toggle">🌙 Dark Mode</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mode toggle functionality
+            const toggleButton = document.getElementById('mode-toggle');
+            const body = document.body;
+            
+            // Check saved theme
+            const savedTheme = localStorage.getItem('themeMode');
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                toggleButton.textContent = '🌙 Dark Mode';
+            } else {
+                toggleButton.textContent = '☀️ Light Mode';
+            }
+            
+            // Toggle theme
+            toggleButton.addEventListener('click', function() {
+                body.classList.toggle('light-mode');
+                const isLight = body.classList.contains('light-mode');
+                toggleButton.textContent = isLight ? '🌙 Dark Mode' : '☀️ Light Mode';
+                localStorage.setItem('themeMode', isLight ? 'light' : 'dark');
+            });
+            
+            // Enhanced eye interactions
+            const eyes = document.querySelectorAll('.eye');
+            eyes.forEach(eye => {
+                eye.addEventListener('mouseenter', function() {
+                    this.style.animationDuration = '0.5s';
+                });
+                
+                eye.addEventListener('mouseleave', function() {
+                    this.style.animationDuration = '4s';
+                });
+                
+                eye.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.5)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+            
+            // Smooth scrolling for navigation
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Parallax effect for background
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const parallax = document.querySelector('body::before');
+                const speed = scrolled * 0.5;
+                document.body.style.backgroundPosition = `0 ${speed}px`;
+            });
+            
+            // Loading animation
+            setTimeout(() => {
+                body.classList.remove('loading');
+            }, 100);
+            
+            // Profile image interaction
+            const profileImage = document.querySelector('.profile-image');
+            if (profileImage) {
+                profileImage.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.1) rotate(5deg)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 300);
+                });
+            }
+            
+            // Feature cards stagger animation
+            const featureCards = document.querySelectorAll('.feature-card');
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            }, observerOptions);
+            
+            featureCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
 </body>
 </html>
